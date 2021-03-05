@@ -1,0 +1,11 @@
+Package: circusofthings
+Name: Circus Debian Library
+Description: Linux commands/libraries that implement the circusofthings.com API
+Author: Jaume Miralles Isern <info@circusofthings.com>
+Maintainer: Jaume Miralles Isern <info@circusofthings.com>
+Version: 0.1
+Section: Libraries
+Architecture: all
+Homepage: https://circusofthings.com
+Website: https://circusofthings.com
+Priority: optional

@@ -1,0 +1,12 @@
+Package: circusdebianlib
+Version: 1.1-1
+Section: Libraries
+Priority: optional
+Name: Circus Of Things Debian Library
+Description: Commands for Linux CLI that implement the circusofthings.com API v1
+Author: Jaume Miralles Isern <info@circusofthings.com>
+Maintainer: Jaume Miralles Isern <info@circusofthings.com>
+Architecture: all
+Homepage: https://circusofthings.com
+Website: https://circusofthings.com
+

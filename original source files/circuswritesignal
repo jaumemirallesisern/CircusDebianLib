@@ -1,0 +1,65 @@
+#!/bin/bash
+
+usage() {
+        echo ""
+        echo "Usage: $0 [ options ] [ -k SIGNALKEY ] [ -n NUMERICVALUE ]" 1>&2
+        echo ""
+        echo "Options:"
+        echo "  -v: verbose"
+        echo ""
+        exit 1 
+}
+
+k_flag=0 
+n_flag=0
+while getopts :vhk:n: option
+do
+case "${option}"
+in
+        k) k_flag=1;key=${OPTARG};;
+	n) n_flag=1;value=${OPTARG};;
+        v) verbose=1;;
+        h) usage;exit;;
+        :) echo "Missing option argument for -$OPTARG" >&2; exit 1;;
+esac
+done
+
+if [ $k_flag -eq 0 ]
+        then
+        echo ""
+        echo "A signal key must be specified"
+        usage
+        exit 2
+fi 
+
+if [ $n_flag -eq 0 ]
+        then
+        echo ""
+        echo "A numeric value must be specified"
+        usage
+        exit 2
+fi
+
+if [[ -z "${CIRCUSTOKEN}" ]]; then
+	echo "Note: Your environment variable CIRCUSTOKEN is empty. Did you set it? Did you set it for the same user that is executing this command?"
+	exit 2
+fi
+
+if ((verbose)); then
+	echo "Writing signal (key: $key) at circusofthings.com"
+fi
+
+#echo "Token: $CIRCUSTOKEN"
+#message=$( curl -H "Accept: application/json" -H "Content-Type: application/json" -X GET "https://circusofthings.com/WriteValue?Token=$CIRCUSTOKEN&Value=$value&Key=$key" | jq -r '.Message')
+response=$( curl --silent "https://circusofthings.com/WriteValue?Token=$CIRCUSTOKEN&Value=$value&Key=$key" )
+message=$( echo $response | jq -r '.Message' )
+
+if ((verbose)); then
+	echo "$message"
+fi
+
+if [[ "$message" != Success.* ]]; then
+	exit 1
+else
+	exit 0
+fi
